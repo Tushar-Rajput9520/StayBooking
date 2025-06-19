@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏨 PG/flat Booking System
 
 A modern and responsive room/PG/hostel booking system built using **Node.js**, **Express**, **EJS**, and **Tailwind CSS**. This project enables users to book their stay online, and allows admins to manage bookings securely.
@@ -42,3 +43,6 @@ A modern and responsive room/PG/hostel booking system built using **Node.js**, *
 ```bash
 git clone https://github.com/your-username/stay-booking-system.git
 cd stay-booking-system
+=======
+# StayBooking
+>>>>>>> c46ad0c72eb631065b1a670bec8ba5636ca44342
