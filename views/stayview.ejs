@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Our Site</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --bg-light: #e2e8f0;
+      --bg-dark: #0f172a;
+      --text-light: #f1f5f9;
+      --text-dark: #1e293b;
+      --accent: #60a5fa;
+      --shadow: rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background-color: var(--bg-dark);
+      padding: 1.5rem 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 10px var(--shadow);
+      position: relative;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.8rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      transform: scale(1.05);
+    }
+
+    nav a .icon {
+      opacity: 0;
+      transform: translateX(-5px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    nav a:hover .icon {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .hamburger {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      cursor: pointer;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      display:block ;
+      margin: 5px 0;
+      width: 25px;
+      height: 3px;
+      background: white;
+      
+    }
+
+    .room-section {
+      padding: 4rem 2rem;
+      background-color: #f9f9f9;
+      text-align: center;
+      box-shadow: 0 4px 10px var(--shadow);
+    }
+
+    .room-section h2 {
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+
+    .room-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 3rem;
+    }
+
+    .room-card {
+      background-color: #fafafa;
+      border-radius: 16px;
+      box-shadow: 0 6px 15px var(--shadow);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .room-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .room-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .room-card h3 {
+      padding: 1rem;
+      font-size: 1.3rem;
+      color: var(--text-dark);
+    }
+
+    .room-card p {
+      padding: 0 1rem 1rem;
+      color: #475569;
+      font-size: 1rem;
+    }
+
+    .section {
+      background-color: var(--text-dark);
+      padding: 3rem 2rem;
+      border-radius: 1rem;
+      margin: 2rem;
+      text-align: center;
+      color: var(--text-light);
+      box-shadow: 0 4px 10px var(--shadow);
+    }
+
+    .section h2 {
+      color: var(--accent);
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+    }
+
+    .facilities,
+    .reviews {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .card {
+      background: #1e1e1e;
+      color: var(--text-light);
+      padding: 1.5rem;
+      max-width: 300px;
+      border-radius: 12px;
+      transition: 0.3s;
+      box-shadow: 0 6px 15px var(--shadow);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: var(--accent);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      background: #1e293b;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .contact-form button {
+      background-color: #3b82f6;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: #2563eb;
+    }
+
+    .sec-padding {
+      padding: 60px 20px;
+      background-color: #f9f9f9;
+      border-radius: 30px;
+      margin: 20px;
+      box-shadow: 0 8px 16px var(--shadow);
+    }
+
+    .section-heading {
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .sec-content-div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .text-content {
+      flex: 1 1 500px;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .image-content img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px var(--shadow);
+    }
+
+    footer {
+      background: #f1f5f9;
+      color: #475569;
+      text-align: center;
+      padding: 1.5rem;
+      box-shadow: 0 -4px 10px var(--shadow);
+    }
+
+    footer a {
+      margin: 0 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .sec-content-div {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .text-content {
+        font-size: 1rem;
+      }
+
+      .room-list {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav {
+        display: none; /* Hide nav by default on mobile */
+        flex-direction: column;
+        background: #0f172a;
+        position: absolute;
+        top: 60px; /* adjust based on header height */
+        right: 2rem;
+        border-radius: 6px;
+        padding: 1rem;
+        width: 150px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 100;
+      }
+
+      nav.show {
+        display: flex; /* Show nav when toggled */
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyBookingSite 🏠</div>
+    <nav id="nav-menu">
+      <a href="/"><i class="fas fa-home icon"></i>Home</a>
+      <a href="#about"><i class="fas fa-info-circle icon"></i>About</a>
+      <a href="#contact"><i class="fas fa-envelope icon"></i>Contact</a>
+      <a href="/user/logout"><i class="fas fa-sign-out-alt icon"></i>Logout</a>
+    </nav>
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </header>
+
+  <section class="room-section">
+    <h2>Available Rooms</h2>
+    <div class="room-list">
+      <a href="/book/booking?type=pg&location=Greater+Noida&photo=pg-room.jpeg" class="room-card">
+        <img src="/pg-room.jpeg" alt="PG Room" />
+        <h3>PG Room – Greater Noida (Alpha2)</h3>
+        <p>₹8500/month • Wi-Fi, Meals, AC</p>
+      </a>
+      <a href="/book/booking?type=flat&location=Noida&photo=flat-.jpeg" class="room-card">
+        <img src="/flat-.jpeg" alt="Flat" />
+        <h3>2 BHK Flat – Noida</h3>
+        <p>₹12000/month • Furnished, Kitchen, Balcony</p>
+      </a>
+      <a href="/book/booking?type=hostel&location=New+Delhi&photo=hostel-room.jpeg" class="room-card">
+        <img src="/hostel-room.jpeg" alt="Hostel" />
+        <h3>Hostel – New Delhi</h3>
+        <p>₹90000/year • Shared room, Study Table, AC</p>
+      </a>
+    </div>
+
+    <div class="room-list">
+      <a href="/book/booking?type=pg&location=Delhi&photo=pg2.jpeg" class="room-card">
+        <img src="/pg2.jpeg" alt="PG Room" />
+        <h3>PG Room – Delhi</h3>
+        <p>₹4500/month • Wi-Fi, Meals, AC</p>
+      </a>
+      <a href="/book/booking?type=flat&location=Noida&photo=flat2.jpeg" class="room-card">
+        <img src="/flat2.jpeg" alt="Flat" />
+        <h3>1 BHK Flat – Noida</h3>
+        <p>₹8500/month • Furnished, Kitchen, Balcony</p>
+      </a>
+      <a href="/book/booking?type=hostel&location=Greater+Noida&photo=hostel2.jpeg" class="room-card">
+        <img src="/hostel2.jpeg" alt="Hostel" />
+        <h3>Hostel – Greater Noida</h3>
+        <p>₹95000/year • Shared, Study Table, Furnished</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Room Facilities</h2>
+    <div class="facilities">
+      <div class="card">
+        <h3>📶 Wi-Fi</h3>
+        <p>High-speed internet in every room.</p>
+      </div>
+      <div class="card">
+        <h3>🛏️ Furnished Rooms</h3>
+        <p>Bed, table, chair, and cupboard included.</p>
+      </div>
+      <div class="card">
+        <h3>❄️ Air Conditioner</h3>
+        <p>Cool and comfortable all year round.</p>
+      </div>
+      <div class="card">
+        <h3>💡 Power Backup</h3>
+        <p>Uninterrupted electricity with backup.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="Reviews">
+    <h2>What Our Users Say</h2>
+    <div class="reviews">
+      <div class="card">
+        <h3>Lav Raj</h3>
+        <p>"The booking process was so smooth! I found a great PG near my college."</p>
+      </div>
+      <div class="card">
+        <h3>Ravi Prakash</h3>
+        <p>"Clean rooms, good facilities, and everything was handled professionally."</p>
+      </div>
+      <div class="card">
+        <h3>Anjali Mehra</h3>
+        <p>"It’s the best platform to book a hostel or flat. Highly recommended!"</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <h2>Contact Us</h2>
+    <form
+      class="contact-form"
+      id="contactform"
+      action="/contact"
+      method="POST"
+    >
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <input type="text" name="phone" placeholder="Your Phone No." required />
+      <textarea
+        name="message"
+        rows="5"
+        placeholder="Your Message"
+        required
+      ></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <section id="about" class="sec-padding">
+    <h3 class="section-heading">ABOUT US</h3>
+    <div class="sec-content-div">
+      <div class="text-content">
+        <p>
+          Welcome to <strong>[Stay Booking System]</strong>, your trusted
+          partner for finding the perfect place to stay! Whether you're
+          searching for a cozy PG, a comfortable flat, or a fully-equipped
+          hostel, we've got you covered. With a focus on verified listings,
+          affordable options, and an easy booking process, we make
+          house-hunting simple and stress-free. Our mission is to connect
+          students, working professionals, and families with safe, secure,
+          and budget-friendly accommodations across the city. Join thousands
+          who have already found their ideal space through us. Your next stay
+          is just a few clicks away!
+        </p>
+      </div>
+      <div class="image-content">
+        <img src="/Untitled.png" alt="A person browsing rooms" />
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>&copy; <script>document.write(new Date().getFullYear())</script> MyBookingSite. All rights reserved.</div>
+    <div style="margin-top: 0.75rem;">
+      <a
+        href="https://www.instagram.com/lav_raj_0.15/"
+        target="_blank"
+        ><i
+          class="fab fa-instagram fa-lg"
+          style="color: #d62976"
+        ></i
+      ></a>
+      <a href="https://www.facebook.com/lav.raj.92" target="_blank"
+        ><i
+          class="fab fa-facebook fa-lg"
+          style="color: #1877f2"
+        ></i
+      ></a>
+      <a
+        href="https://www.linkedin.com/in/lav-raj-7a1a95257/"
+        target="_blank"
+        ><i
+          class="fab fa-linkedin fa-lg"
+          style="color: #0077b5"
+        ></i
+      ></a>
+      <a href="https://x.com/lav_raj_15" target="_blank"
+        ><i class="fab fa-x-twitter fa-lg" style="color: #000"></i
+      ></a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <script>
+  const hamburger = document.getElementById("hamburger");
+  const navMenu = document.getElementById("nav-menu");
+
+  hamburger.addEventListener("click", (e) => {
+    e.stopPropagation(); // Stop event from bubbling
+    navMenu.classList.toggle("show");
+  });
+
+  document.addEventListener("click", function (e) {
+    // Check if clicked element is outside the nav and hamburger
+    if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+      navMenu.classList.remove("show");
+    }
+  });
+</script>
+
+
+  <script>
+    document.getElementById("contactform").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch("/stay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+
+        if (res.ok && result.success) {
+          Swal.fire({
+            icon: "success",
+            title: "Thank you for contacting us!",
+            text: result.message,
+          }).then(() => {
+            window.location.href = "/stay"; // Optional redirect
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops!",
+            text: result.message || "Please check your input.",
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Server Error",
+          text: "Something went wrong. Please try again.",
+        });
+      }
+    });
+  </script>
+</body>
+</html>

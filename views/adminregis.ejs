@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <title>Admin Register</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+  <body class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-4 sm:px-0"
+    style="background-image: url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop');">
+
+    <div class="w-full max-w-md md:max-w-lg space-y-6 p-6 sm:p-8 bg-teal-500/90 backdrop-blur-md rounded-xl shadow-xl text-white">
+
+      <form action="/admin/register" method="POST" class="space-y-4" id="adminRegisterForm">
+        <h2 class="text-3xl font-bold text-center">Admin Registration</h2>
+
+        <% if (error) { %>
+          <p class="text-sm text-center text-red-100 bg-red-600 py-2 px-4 rounded shadow"><%= error %></p>
+        <% } %>
+
+        <div>
+          <label for="email" class="block mb-2 text-sm font-semibold">Email Id</label>
+          <input type="email" id="email" name="email" required placeholder="admin@example.com"
+            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label for="phone" class="block mb-2 text-sm font-semibold">Phone No.</label>
+          <input type="text" id="phone" name="phone" required placeholder="94xxxxxxxx"
+            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label for="password" class="block mb-2 text-sm font-semibold">Password</label>
+          <input type="password" id="password" name="password" required placeholder="Create password"
+            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <button type="submit"
+          class="w-full text-white bg-blue-700 hover:bg-blue-800 font-semibold rounded-lg text-sm px-5 py-2.5 transition duration-300">
+          Register
+        </button>
+      </form>
+
+      <div class="text-center mt-4">
+        <p class="text-sm">
+          Already have an account?
+          <a href="/admin/login" class="text-blue-200 hover:underline font-medium">Login here</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('adminRegisterForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const res = await fetch('/admin/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+
+          const result = await res.json();
+
+          if (res.ok) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Registration Successful!',
+              text: 'Redirecting to admin login...'
+            }).then(() => {
+              window.location.href = '/upload';
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Registration Failed',
+              text: result.message || 'Something went wrong.'
+            });
+          }
+
+        } catch (err) {
+          console.error(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Server Error',
+            text: 'Please try again later.'
+          });
+        }
+      });
+    </script>
+
+  </body>
+</html>

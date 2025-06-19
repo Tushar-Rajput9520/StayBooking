@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stay Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+  <body
+    class="min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-no-repeat px-4 sm:px-6"
+    style="background-image: url('/Booking.jpeg');"
+  >
+    <div
+      class="w-full max-w-lg space-y-6 p-6 sm:p-8 bg-white/80 dark:bg-gray-800/90 backdrop-blur-lg rounded-xl shadow-2xl"
+    >
+      <h2 class="text-3xl font-bold text-center text-blue-700 dark:text-white">Book Your Stay</h2>
+
+      <form action="/book/booking" method="POST" class="space-y-4" id="bookingform">
+        <input type="hidden" name="photo" value="<%= selectedPhoto %>" />
+
+        <!-- Full Name -->
+        <div>
+          <label for="name" class="block mb-1 font-semibold text-gray-800 dark:text-gray-200">Full Name</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            required
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label for="phone" class="block mb-1 font-semibold text-gray-800 dark:text-gray-200">Phone No.</label>
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            required
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block mb-1 font-semibold text-gray-800 dark:text-gray-200">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <!-- Room Type -->
+        <div>
+          <label for="roomType" class="block mb-1 font-semibold text-gray-800 dark:text-gray-200">Select Room Type</label>
+          <select
+            name="roomType"
+            id="roomType"
+            required
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <% rooms.forEach(room => { %>
+            <option value="<%= room.type %>" <%= room.type === selectedRoomType ? 'selected' : '' %>>
+              <%= room.name %> - ₹<%= room.price %>
+            </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- Location -->
+        <div>
+          <label for="location" class="block mb-1 font-semibold text-gray-800 dark:text-gray-200">Location</label>
+          <select
+            name="location"
+            id="location"
+            required
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">-- Select Location --</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Pune">Pune</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Greater Noida">Greater Noida</option>
+          </select>
+        </div>
+
+        <!-- Check-in / Check-out -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <label class="block mb-1 font-semibold text-gray-800 dark:text-gray-200">Check-In</label>
+            <input
+              type="date"
+              name="checkin"
+              required
+              class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div class="flex-1">
+            <label class="block mb-1 font-semibold text-gray-800 dark:text-gray-200">Check-Out</label>
+            <input
+              type="date"
+              name="checkout"
+              required
+              class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition duration-200"
+        >
+          Book Now
+        </button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById('bookingform').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const res = await fetch('/book/booking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          const result = await res.json();
+
+          if (res.ok && result.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Your Booking is Successful!',
+              text: result.message,
+            }).then(() => {
+              window.location.href = '/stay';
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops!',
+              text: result.message || 'Please check your input.',
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Server Error',
+            text: 'Something went wrong. Please try again.',
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
